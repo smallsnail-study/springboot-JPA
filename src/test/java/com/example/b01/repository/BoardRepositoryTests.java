@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -30,4 +31,20 @@ public class BoardRepositoryTests {
             log.info("BNO: " + result.getBno());
         });
     }
+
+    @Test
+    public void testSelect() {  // 특정 게시물 조회
+
+        Long bno = 100L;
+
+        // 특정한 번호의 게시물을 조회하는 기능은 findById()를 이용해서 처리한다.
+        // findById()의 리턴 타입은 Optional<T>이다.
+        Optional<Board> result = boardRepository.findById(bno);
+
+        Board board = result.orElseThrow();
+
+        log.info(board);
+    }
+
+
 }
