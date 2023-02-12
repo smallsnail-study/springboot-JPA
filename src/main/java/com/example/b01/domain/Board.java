@@ -1,13 +1,17 @@
 package com.example.b01.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity // 데이터에 해당하는 객체
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Board extends BaseEntity{
 
     @Id // 엔티티 객체의 구분
@@ -23,4 +27,9 @@ public class Board extends BaseEntity{
     @Column(length = 50, nullable = false)
     private String writer;
 
+    // 수정이 가능한 제목/내용 부분을 미리 메소드로 설계한다.
+    public void change(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
