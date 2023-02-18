@@ -27,6 +27,9 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         query.where(board.title.contains("1")); // where title like ...
 
+        //paging
+        this.getQuerydsl().applyPagination(pageable, query);
+
         List<Board> list = query.fetch();   // JPQLQuery의 실행은 fetch()라는 기능을 이용
 
         long count = query.fetchCount();    // fetchCount()를 이용하면 count쿼리 실행 가능
