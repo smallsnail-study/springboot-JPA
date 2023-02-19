@@ -2,6 +2,7 @@ package com.example.b01.repository.search;
 
 import com.example.b01.domain.Board;
 import com.example.b01.domain.QBoard;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import java.util.List;
 
 public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardSearch {
-    // 인터페이스이름+Impl 이름으로 클래스를 선언 - QuerydslRepositorySupport란느 부모 클래스를 지정하고 인터페이스를 구현
+    // 인터페이스이름+Impl 이름으로 클래스를 선언 - QuerydslRepositorySupport라는 부모 클래스를 지정하고 인터페이스를 구현
 
     public BoardSearchImpl() {
         super(Board.class);
@@ -25,7 +26,17 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         JPQLQuery<Board> query = from(board);   // select.. from board
 
-        query.where(board.title.contains("1")); // where title like ...
+        BooleanBuilder booleanBuilder = new BooleanBuilder();   // (
+
+        booleanBuilder.or(board.title.contains("11"));  // title like ...
+
+        booleanBuilder.or(board.content.contains("11"));    // content like ...
+
+        query.where(booleanBuilder);
+
+        query.where(board.bno.gt(0L));
+
+//        query.where(board.title.contains("1")); // where title like ...
 
         //paging
         this.getQuerydsl().applyPagination(pageable, query);
