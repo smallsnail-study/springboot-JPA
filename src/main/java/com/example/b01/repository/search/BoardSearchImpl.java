@@ -5,6 +5,7 @@ import com.example.b01.domain.QBoard;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
@@ -85,6 +86,13 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         long count = query.fetchCount();
 
-        return null;
+//        return null;
+        // 페이징 처리의 최종결과는 Page<T>타입을 반환, Querydsl에서 직접처리하는 불편함
+        // Spring Data JPA에서는 이 처리를 위해 PageImpl이라는 클래스를 제공해서 3개의 파라미터로 Page<T>생성 가능
+        /* List<T> : 실제 목록 데이터
+           Pageable : 페이지 관련 정보를 가진 객체
+           long : 전체 개수
+         */
+        return new PageImpl<>(list, pageable, count);
     }
 }
