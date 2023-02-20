@@ -108,4 +108,36 @@ public class BoardRepositoryTests {
 
         Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
     }
+
+    @Test
+    public void testSearchALl2() {
+
+        String[] types = {"t", "c", "w"};
+
+        String keyword = "1";
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+
+        Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
+
+        // total pages
+        log.info(result.getTotalPages());
+
+        // page size
+        log.info(result.getSize());
+
+        // pageNumber
+        log.info(result.getNumber());
+
+        // prev next
+        log.info(result.hasPrevious() + ": " + result.hasNext());
+
+        result.getContent().forEach(board -> log.info(board));
+
+        // 테스트결과 : 키워드 '1'이라는 글자가 있는 총 페이지 수는 2이고, 이전페이지(prev)는 없지만 다음페이지(next)는 존재
+        //2023-02-21 00:00:57.926  INFO 25596 --- [    Test worker] c.e.b01.repository.BoardRepositoryTests  : 2
+        //2023-02-21 00:00:57.927  INFO 25596 --- [    Test worker] c.e.b01.repository.BoardRepositoryTests  : 10
+        //2023-02-21 00:00:57.927  INFO 25596 --- [    Test worker] c.e.b01.repository.BoardRepositoryTests  : 0
+        //2023-02-21 00:00:57.932  INFO 25596 --- [    Test worker] c.e.b01.repository.BoardRepositoryTests  : false: true
+    }
 }
