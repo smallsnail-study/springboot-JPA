@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 
 @Service
@@ -22,13 +23,25 @@ public class BoardServiceImpl implements BoardService {
     private final BoardRepository boardRepository;
 
     @Override
-    public Long register(BoardDTO boardDTO) {
+    public Long register(BoardDTO boardDTO) {   // 등록작업
 
         Board board = modelMapper.map(boardDTO, Board.class);
 
         Long bno = boardRepository.save(board).getBno();
 
         return bno;
+    }
+
+    @Override
+    public BoardDTO readOne(Long bno) { // 조회작업
+
+        Optional<Board> result = boardRepository.findById(bno);
+
+        Board board = result.orElseThrow();
+
+        BoardDTO boardDTO = modelMapper.map(board, BoardDTO.class);
+
+        return boardDTO;
     }
 
 }
