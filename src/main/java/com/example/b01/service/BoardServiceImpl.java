@@ -44,4 +44,15 @@ public class BoardServiceImpl implements BoardService {
         return boardDTO;
     }
 
+    @Override
+    public void modify(BoardDTO boardDTO) {
+        Optional<Board> result = boardRepository.findById(boardDTO.getBno());
+
+        Board board = result.orElseThrow();
+
+        // Board의 change를 이용해서 필요한 부분만 수정
+        board.change(boardDTO.getTitle(), boardDTO.getContent());
+
+        boardRepository.save(board);
+    }
 }
