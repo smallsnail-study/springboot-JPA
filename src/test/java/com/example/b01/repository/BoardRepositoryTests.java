@@ -77,6 +77,7 @@ public class BoardRepositoryTests {
         // 1 page order by bno desc
         Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
 
+        //Pageable의 리턴타입 Page<T> 목록처리, count처리 자동실행가능(이전페이지,다음페이지가 존재하는지, 전체데이터개수가 몇개인지)
         Page<Board> result = boardRepository.findAll(pageable);
 
         log.info("total count: " + result.getTotalElements());
@@ -100,6 +101,7 @@ public class BoardRepositoryTests {
     @Test
     public void testSearchALl() {
 
+        // 검색조건인 types는 '제목(t),내용(c),작성자(w)'로 구성
         String[] types = {"t", "c", "w"};
 
         String keyword = "1";
