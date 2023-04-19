@@ -5,7 +5,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@Configuration  // 해당 클래스가 스프링의 설정 클래스임을 명시
 public class RootConfig {
 
     @Bean
