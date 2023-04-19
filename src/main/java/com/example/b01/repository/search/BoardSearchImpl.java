@@ -27,8 +27,11 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
 
         JPQLQuery<Board> query = from(board);   // select.. from board
 
-        BooleanBuilder booleanBuilder = new BooleanBuilder();   // (
+        // where 조건에 and와 or이 섞여 있을 때 연산자의 우선 순위가 다르므로 or 조건은 ()로 묶어서 하나의 단위로 만들어 주는 것이 좋다.
+        // Querydsl 이용 시 ()가 필요한 상황에서는 BooleanBuilder를 이용해서 작성 가능
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
 
+        // 제목 or 내용에 대한 처리를 BooleanBuilder에 or()를 이용해서 추가
         booleanBuilder.or(board.title.contains("11"));  // title like ...
 
         booleanBuilder.or(board.content.contains("11"));    // content like ...
@@ -55,11 +58,12 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardS
         QBoard board = QBoard.board;
         JPQLQuery<Board> query = from(board);
 
-        // 검색 조건과 키워드가 있따면
+        // 검색 조건과 키워드가 있다면
         if ((types != null && types.length > 0) && keyword != null) {
 
             BooleanBuilder booleanBuilder = new BooleanBuilder();
 
+            // 검색조건인 types는 '제목(t),내용(c),작성자(w)'로 구성
             for (String type : types) {
                 switch (type) {
                     case "t":
