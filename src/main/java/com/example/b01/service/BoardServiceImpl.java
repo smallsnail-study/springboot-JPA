@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-@Transactional
+@Transactional  // 해당 객체를 감싸는 별도의 클래스를 생성
 public class BoardServiceImpl implements BoardService {
 
     private final ModelMapper modelMapper;
@@ -54,5 +54,10 @@ public class BoardServiceImpl implements BoardService {
         board.change(boardDTO.getTitle(), boardDTO.getContent());
 
         boardRepository.save(board);
+    }
+
+    @Override
+    public void remove(Long bno) {
+        boardRepository.deleteById(bno);
     }
 }
